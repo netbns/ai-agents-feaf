@@ -1,0 +1,73 @@
+apiVersion: dapr.io/v1alpha1
+kind: Configuration
+metadata:
+  name: feaf-configuration
+  namespace: feaf-dashboard
+spec:
+  # Tracing configuration for distributed tracing
+  tracing:
+    # Zipkin endpoint for trace collection (optional - for local development)
+    # For production, replace with production Zipkin URL or Jaeger endpoint
+    samplingRate: "1"  # Sample all traces (100%)
+    # zipkin:
+    #   endpointAddress: "http://zipkin:9411/api/v1/spans"
+    
+    # For local development without external tracing backend:
+    # Dapr will log traces to stdout/stderr
+    # Enable by uncommenting and configuring endpoint
+
+  # mTLS (mutual TLS) configuration for service-to-service communication
+  mtls:
+    # Enable mTLS for service-to-service communication
+    enabled: true
+    
+    # Allowed clock skew for certificate validation
+    allowedClockSkew: 15s
+    
+    # Control plane trust domain
+    controlPlaneTrustDomain: cluster.local
+    
+    # Sentry address for certificate management
+    sentryAddress: dapr-sentry.dapr-system.svc.cluster.local:443
+    
+    # Workload certificate time-to-live
+    workloadCertTTL: 24h
+  
+  # Metrics configuration
+  metrics:
+    enabled: true
+  
+  # Access control policies (optional - for MVP)
+  # accessControl:
+  #   defaultAction: "allow"  # or "deny" for deny-by-default pattern
+  #   trustDomain: "feaf-dashboard::<service>"
+  #   policies:
+  #     - appName: "feaf-backend"
+  #       allowedAppIds:
+  #         - "feaf-frontend"
+  #       allowedMethods:
+  #         - "GET"
+  #         - "POST"
+  #         - "PATCH"
+  #         - "DELETE"
+  #       allowedOperations:
+  #         - "state/get"
+  #         - "state/set"
+  #         - "state/delete"
+
+  # API token configuration (optional)
+  # Uncomment to enable API token authentication
+  # apiTokenSecretRef:
+  #   name: "dapr-api-token"
+  #   key: "token"
+
+  # Feature specifications (optional)
+  features:
+    - name: StateManagement
+      enabled: true
+    - name: ServiceInvocation
+      enabled: true
+    - name: Resiliency
+      enabled: true
+    - name: Observability
+      enabled: true

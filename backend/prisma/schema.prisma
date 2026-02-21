@@ -1,0 +1,182 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// User model for authentication
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  password  String     // Hashed password
+  name      String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  
+  // Relations
+  boards    Board[]
+  
+  @@index([email])
+}
+
+// Reference Models Enumeration
+enum ReferenceModel {
+  PRM  // Performance Reference Model
+  BRM  // Business Reference Model
+  DRM  // Data Reference Model
+  ARM  // Application Reference Model
+  IRM  // Infrastructure Reference Model
+  SRM  // Security Reference Model
+}
+
+// Board model - represents one FEAF board
+model Board {
+  id              String     @id @default(cuid())
+  userId          String
+  name            String
+  description     String?
+  referenceModel  ReferenceModel
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  
+  // Relations
+  user            User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  components      Component[]
+  relationships   Relationship[]
+  
+  @@unique([userId, name])
+  @@index([userId])
+  @@index([referenceModel])
+}
+
+// Component Types by Reference Model
+enum PRMComponentType {
+  KPI
+  METRIC
+  MEASUREMENT_CATEGORY
+}
+
+enum BRMComponentType {
+  BUSINESS_FUNCTION
+  SERVICE
+  CAPABILITY
+}
+
+enum DRMComponentType {
+  DATA_ENTITY
+  STANDARD
+  EXCHANGE_FORMAT
+}
+
+enum ARMComponentType {
+  APPLICATION
+  INTERFACE
+  APPLICATION_SERVICE
+}
+
+enum IRMComponentType {
+  INFRASTRUCTURE_ELEMENT
+  PLATFORM
+  NETWORK_COMPONENT
+}
+
+enum SRMComponentType {
+  SECURITY_CONTROL
+  POLICY
+  RISK_ELEMENT
+}
+
+// Component Union Type (using JSON)
+model Component {
+  id        String     @id @default(cuid())
+  boardId   String
+  name      String
+  description String?
+  type      String     // Stored as string but typed by reference model
+  properties Json?      // Flexible properties based on component type
+  positionX Float      @default(0)
+  positionY Float      @default(0)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  
+  // Relations
+  board     Board      @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  sourceRelationships Relationship[] @relation("source")
+  targetRelationships Relationship[] @relation("target")
+  sourceLinks CrossBoardLink[] @relation("sourceComponent")
+  targetLinks CrossBoardLink[] @relation("targetComponent")
+  
+  @@index([boardId])
+  @@index([type])
+}
+
+// Relationship Types
+enum RelationshipType {
+  DEPENDS_ON
+  COMMUNICATES_WITH
+  CONTAINS
+  SUPPORTS
+  IMPLEMENTS
+}
+
+// Relationship model - connections between components on same board
+model Relationship {
+  id                  String     @id @default(cuid())
+  boardId             String
+  sourceComponentId   String
+  targetComponentId   String
+  type                RelationshipType
+  description         String?
+  createdAt           DateTime   @default(now())
+  
+  // Relations
+  board               Board      @relation(fields: [boardId], references: [id], onDelete: Cascade)
+  sourceComponent     Component  @relation("source", fields: [sourceComponentId], references: [id], onDelete: Cascade)
+  targetComponent     Component  @relation("target", fields: [targetComponentId], references: [id], onDelete: Cascade)
+  
+  @@unique([sourceComponentId, targetComponentId, type])
+  @@index([boardId])
+  @@index([sourceComponentId])
+  @@index([targetComponentId])
+}
+
+// Cross-Board Link model - connections between components on different boards
+model CrossBoardLink {
+  id              String     @id @default(cuid())
+  sourceComponentId  String
+  targetComponentId  String
+  sourceBoardRef  String     // Reference model type of source board
+  targetBoardRef  String     // Reference model type of target board
+  linkType        String     // Type of semantic link (e.g., "implements", "supports")
+  description     String?
+  createdAt       DateTime   @default(now())
+  
+  // Relations
+  sourceComponent Component  @relation("sourceComponent", fields: [sourceComponentId], references: [id], onDelete: Cascade)
+  targetComponent Component  @relation("targetComponent", fields: [targetComponentId], references: [id], onDelete: Cascade)
+  
+  @@unique([sourceComponentId, targetComponentId])
+  @@index([sourceComponentId])
+  @@index([targetComponentId])
+}
+
+// Audit log for tracking changes
+model AuditLog {
+  id        String     @id @default(cuid())
+  userId    String
+  action    String     // CREATE, UPDATE, DELETE
+  entity    String     // Board, Component, Relationship
+  entityId  String
+  changes   Json?      // What changed
+  createdAt DateTime   @default(now())
+  
+  @@index([userId])
+  @@index([entityId])
+  @@index([createdAt])
+}

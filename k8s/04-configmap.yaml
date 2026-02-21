@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: feaf-config
+  namespace: feaf-dashboard
+  labels:
+    app: feaf-dashboard
+    component: config
+data:
+  # Backend API URL for frontend to connect to
+  api-url: "http://feaf-backend:3000"
+  
+  # Node environment
+  node-env: "production"
+  
+  # Feature flags
+  feature-cross-board-links: "true"
+  feature-export-csv: "true"
+  feature-export-json: "true"
+  
+  # Logging configuration
+  log-level: "info"
+  log-format: "json"
+  
+  # API configuration
+  api-rate-limit: "100"
+  api-max-request-size: "10485760"  # 10MB in bytes
+  
+  # Database configuration (non-sensitive)
+  db-pool-size: "10"
+  db-connection-timeout: "5000"
+  
+  # JWT configuration (non-sensitive)
+  jwt-expiration: "3600"  # 1 hour in seconds
+  
+  # Prometheus metrics
+  metrics-enabled: "true"
+  metrics-path: "/metrics"
+  
+  # CORS configuration
+  cors-enabled: "true"
+  cors-origins: "*"  # Should be restricted in production
+  
+  # Pagination defaults
+  pagination-default-limit: "20"
+  pagination-max-limit: "100"

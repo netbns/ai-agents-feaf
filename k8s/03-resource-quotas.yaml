@@ -1,0 +1,52 @@
+---
+# Resource quota for the feaf-dashboard namespace
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: feaf-dashboard-quota
+  namespace: feaf-dashboard
+spec:
+  hard:
+    # Limit total CPU and memory across all pods
+    requests.cpu: "8"
+    requests.memory: "16Gi"
+    limits.cpu: "16"
+    limits.memory: "32Gi"
+    
+    # Limit number of resources
+    pods: "20"
+    services: "10"
+    persistentvolumeclaims: "5"
+    
+    # Limit storage
+    requests.storage: "100Gi"
+---
+# LimitRange to set default resource limits for pods
+apiVersion: v1
+kind: LimitRange
+metadata:
+  name: feaf-dashboard-limits
+  namespace: feaf-dashboard
+spec:
+  limits:
+  # Default limits for containers
+  - type: Container
+    default:
+      cpu: "1000m"
+      memory: "1Gi"
+    defaultRequest:
+      cpu: "250m"
+      memory: "256Mi"
+    max:
+      cpu: "2000m"
+      memory: "4Gi"
+    min:
+      cpu: "100m"
+      memory: "128Mi"
+  
+  # Limits for PersistentVolumeClaims
+  - type: PersistentVolumeClaim
+    max:
+      storage: "50Gi"
+    min:
+      storage: "1Gi"

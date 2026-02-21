@@ -1,0 +1,58 @@
+---
+# Role for backend service - needs to read ConfigMaps and Secrets
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: feaf-backend-role
+  namespace: feaf-dashboard
+rules:
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["secrets"]
+  verbs: ["get"]
+---
+# Role for Prometheus - needs to scrape metrics from pods
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: prometheus-role
+  namespace: feaf-dashboard
+rules:
+- apiGroups: [""]
+  resources: ["pods", "services", "endpoints"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["configmaps"]
+  verbs: ["get"]
+---
+# RoleBinding for backend service account
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: feaf-backend-rolebinding
+  namespace: feaf-dashboard
+subjects:
+- kind: ServiceAccount
+  name: feaf-backend-sa
+  namespace: feaf-dashboard
+roleRef:
+  kind: Role
+  name: feaf-backend-role
+  apiGroup: rbac.authorization.k8s.io
+---
+# RoleBinding for Prometheus service account
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: prometheus-rolebinding
+  namespace: feaf-dashboard
+subjects:
+- kind: ServiceAccount
+  name: prometheus-sa
+  namespace: feaf-dashboard
+roleRef:
+  kind: Role
+  name: prometheus-role
+  apiGroup: rbac.authorization.k8s.io

@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: feaf-frontend
+    ports:
+      - "3001:3001"
+    environment:
+      VITE_API_URL: http://localhost:3000
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    image: feaf-backend:latest
+    container_name: feaf-backend-prod
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://feaf_user:feaf_password@postgres:5432/feaf_db
+      JWT_SECRET: your-secret-key
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: feaf-postgres-prod
+    environment:
+      POSTGRES_USER: feaf_user
+      POSTGRES_PASSWORD: feaf_password
+      POSTGRES_DB: feaf_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:7-alpine
+    container_name: feaf-redis-prod
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  postgres_data:
+  redis_data:
+
+networks:
+  default:
+    name: feaf-network-full

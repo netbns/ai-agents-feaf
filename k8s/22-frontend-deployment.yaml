@@ -1,0 +1,59 @@
+---
+# ============================================
+# Frontend Deployment
+# Nginx serving React SPA + reverse proxy to backend
+# ============================================
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: feaf-frontend
+  namespace: feaf-dashboard
+  labels:
+    app: feaf-frontend
+    component: ui
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: feaf-frontend
+  template:
+    metadata:
+      labels:
+        app: feaf-frontend
+        component: ui
+      annotations:
+        # Dapr sidecar (optional for frontend)
+        dapr.io/enabled: "false"
+    spec:
+      serviceAccountName: feaf-frontend-sa
+      containers:
+      - name: frontend
+        image: feaf-frontend:latest
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "500m"
+            memory: "256Mi"
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 10
+          periodSeconds: 15
+          timeoutSeconds: 3
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /healthz
+            port: 80
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 3
+          failureThreshold: 3

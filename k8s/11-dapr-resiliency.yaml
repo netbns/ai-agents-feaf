@@ -1,0 +1,83 @@
+apiVersion: dapr.io/v1alpha1
+kind: Resiliency
+metadata:
+  name: feaf-resiliency
+  namespace: feaf-dashboard
+spec:
+  policies:
+    # Retry policies with exponential backoff
+    retries:
+      # Default retry policy for general service invocations
+      DefaultRetryPolicy:
+        policy: exponential
+        duration: 1s
+        maxInterval: 10s
+        maxRetries: 3
+      
+      # Database-specific retry policy with longer backoff
+      DatabaseRetryPolicy:
+        policy: exponential
+        duration: 2s
+        maxInterval: 15s
+        maxRetries: 5
+      
+      # Quick retry for transient network issues
+      QuickRetryPolicy:
+        policy: constant
+        duration: 500ms
+        maxRetries: 2
+    
+    # Timeout policies for services and components
+    timeouts:
+      # Default timeout for service invocations
+      DefaultTimeout: 5s
+      
+      # Longer timeout for database operations
+      DatabaseTimeout: 10s
+      
+      # Short timeout for health checks
+      HealthCheckTimeout: 2s
+      
+      # Extended timeout for complex operations
+      LongRunningTimeout: 30s
+    
+    # Circuit breaker policies to prevent cascading failures
+    circuitBreakers:
+      # Default circuit breaker for services
+      DefaultCircuitBreaker:
+        maxRequests: 3
+        interval: 10s
+        timeout: 30s
+        trip: consecutiveFailures >= 5
+      
+      # Stricter circuit breaker for database operations
+      DatabaseCircuitBreaker:
+        maxRequests: 2
+        interval: 15s
+        timeout: 60s
+        trip: consecutiveFailures >= 3
+  
+  # Apply policies to specific targets
+  targets:
+    # Service-level policies
+    apps:
+      # Backend service policies
+      feaf-backend:
+        retry: DefaultRetryPolicy
+        timeout: DefaultTimeout
+        circuitBreaker: DefaultCircuitBreaker
+      
+      # Frontend service policies
+      feaf-frontend:
+        retry: QuickRetryPolicy
+        timeout: DefaultTimeout
+        circuitBreaker: DefaultCircuitBreaker
+    
+    # Component-level policies
+    components:
+      # State store (PostgreSQL) policies
+      statestore:
+        outbound:
+          retry: DatabaseRetryPolicy
+          timeout: DatabaseTimeout
+          circuitBreaker: DatabaseCircuitBreaker

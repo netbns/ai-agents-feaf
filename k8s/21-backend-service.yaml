@@ -1,0 +1,22 @@
+---
+# ============================================
+# Backend Service - ClusterIP
+# Internal service for frontend reverse proxy
+# ============================================
+apiVersion: v1
+kind: Service
+metadata:
+  name: feaf-backend
+  namespace: feaf-dashboard
+  labels:
+    app: feaf-backend
+    component: api
+spec:
+  type: ClusterIP
+  selector:
+    app: feaf-backend
+  ports:
+  - name: http
+    port: 3000
+    targetPort: 3000
+    protocol: TCP

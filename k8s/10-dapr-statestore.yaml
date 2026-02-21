@@ -1,0 +1,26 @@
+apiVersion: dapr.io/v1alpha1
+kind: Component
+metadata:
+  name: statestore
+  namespace: feaf-dashboard
+spec:
+  type: state.postgresql
+  version: v1
+  metadata:
+  # Connection string from Kubernetes Secret
+  - name: connectionString
+    secretKeyRef:
+      name: feaf-secrets
+      key: database-url
+  # Table name for storing state data
+  - name: tableName
+    value: "dapr_state"
+  # Table name for storing metadata
+  - name: metadataTableName
+    value: "dapr_state_metadata"
+  # Timeout for database operations (seconds)
+  - name: timeoutInSeconds
+    value: "30"
+  # Cleanup interval for expired state (seconds)
+  - name: cleanupIntervalInSeconds
+    value: "3600"
