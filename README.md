@@ -61,52 +61,141 @@ This application provides a comprehensive platform for managing enterprise archi
 
 ## 🏛️ Architecture
 
+### 📐 System Context Diagram (C4)
+
+```mermaid
+graph TB
+    subgraph Users
+        A1[Enterprise Architect<br/>Creates & manages<br/>FEAF models]
+        A2[Stakeholder<br/>Views architecture<br/>documentation]
+    end
+    
+    subgraph "FEAF-Aligned AI Agents System"
+        B1[Web Application<br/>React + Vite<br/>UI for FEAF models]
+        B2[API Backend<br/>NestJS + Prisma<br/>Business logic & auth]
+        B3[PostgreSQL<br/>Database<br/>Boards, components, users]
+    end
+    
+    C1[Dapr Runtime<br/>External System<br/>Service mesh & state]
+    
+    A1 -->|Creates boards &<br/>manages components| B1
+    A2 -->|Views architecture<br/>documentation| B1
+    B1 -->|REST API calls<br/>HTTPS/JSON| B2
+    B2 -->|Reads/Writes<br/>SQL/Prisma| B3
+    B2 -.->|Service invocation<br/>Optional| C1
+    
+    style B1 fill:#dae8fc,stroke:#6c8ebf
+    style B2 fill:#dae8fc,stroke:#6c8ebf
+    style B3 fill:#dae8fc,stroke:#6c8ebf
+    style C1 fill:#f8cecc,stroke:#b85450
+    style A1 fill:#ffe6cc,stroke:#d79b00
+    style A2 fill:#ffe6cc,stroke:#d79b00
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                         Frontend                             │
-│                    (React + Vite)                            │
-│  ┌─────────┐ ┌──────────┐ ┌─────────┐ ┌──────────────┐   │
-│  │  Pages  │ │Components│ │  Store  │ │  API Client  │   │
-│  └─────────┘ └──────────┘ └─────────┘ └──────────────┘   │
-└────────────────────────┬────────────────────────────────────┘
-                         │ REST API
-                         │
-┌────────────────────────▼────────────────────────────────────┐
-│                         Backend                              │
-│                    (NestJS + Prisma)                         │
-│  ┌─────────┐ ┌──────────┐ ┌─────────┐ ┌──────────────┐   │
-│  │  Auth   │ │  Boards  │ │Component│ │Relationships │   │
-│  └─────────┘ └──────────┘ └─────────┘ └──────────────┘   │
-│  ┌──────────────────┐  ┌────────────┐                      │
-│  │Cross-Board Links │  │    Dapr    │                      │
-│  └──────────────────┘  └────────────┘                      │
-└────────────────────────┬────────────────────────────────────┘
-                         │
-                         │
-┌────────────────────────▼────────────────────────────────────┐
-│                      PostgreSQL                              │
-│                   (Prisma Schema)                            │
-│  8 Models: User, Board, Component, Relationship, etc.       │
-└──────────────────────────────────────────────────────────────┘
+
+### 🏗️ Container Architecture
+
+```mermaid
+graph TB
+    subgraph Frontend["React Frontend Container"]
+        F1[Pages<br/>Login, Boards, Details]
+        F2[Components<br/>Reusable UI]
+        F3[State<br/>Zustand + React Query]
+        F4[API Client<br/>Axios + JWT]
+    end
+    
+    subgraph Backend["NestJS Backend Container"]
+        B1[Auth Module<br/>JWT + Bcrypt]
+        B2[Boards Module<br/>CRUD + Export]
+        B3[Components Module<br/>Type validation]
+        B4[Relationships Module<br/>5 types]
+        B5[Cross-Board Links<br/>Semantic validation]
+        B6[Dapr Module<br/>Service mesh]
+        B7[Health Module<br/>K8s probes]
+        B8[Prisma Service<br/>ORM layer]
+    end
+    
+    DB[(PostgreSQL<br/>8 Models<br/>Users, Boards,<br/>Components, etc.)]
+    REDIS[(Redis<br/>Dapr State<br/>Optional)]
+    
+    Frontend -->|REST API<br/>41 endpoints| Backend
+    Backend -->|SQL queries<br/>via Prisma| DB
+    B6 -.->|State ops| REDIS
+    
+    style Frontend fill:#dae8fc,stroke:#6c8ebf
+    style Backend fill:#d5e8d4,stroke:#82b366
+    style DB fill:#f5f5f5,stroke:#666666
+    style REDIS fill:#f5f5f5,stroke:#666666
 ```
 
-### 📐 Architecture Diagrams
+### ☸️ Kubernetes Infrastructure
 
-Detailed architecture diagrams are available in the `docs/` directory:
+```mermaid
+graph TB
+    subgraph K8s["Kubernetes Cluster - Namespace: feaf-dashboard"]
+        subgraph Workloads["Workloads"]
+            FD[Frontend Deployment<br/>React App<br/>Replicas: 2<br/>Port: 80]
+            BD[Backend Deployment<br/>NestJS API<br/>Replicas: 2<br/>Port: 3000]
+            PG[PostgreSQL StatefulSet<br/>postgres-0<br/>Port: 5432<br/>PVC: 10Gi]
+        end
+        
+        subgraph Services["Services"]
+            FS[frontend-svc<br/>ClusterIP:80]
+            BS[backend-svc<br/>ClusterIP:3000]
+            PS[postgres-svc<br/>ClusterIP:5432]
+        end
+        
+        subgraph Config["Configuration"]
+            CM1[ConfigMap<br/>backend-config<br/>env vars]
+            SEC1[Secret<br/>db-credentials]
+            SEC2[Secret<br/>jwt-secret]
+        end
+        
+        subgraph Storage["Persistent Storage"]
+            PVC1[PVC: postgres-data<br/>10Gi]
+            PVC2[PVC: prometheus-data<br/>5Gi]
+        end
+        
+        subgraph Dapr["Dapr Components"]
+            DS[StateStore<br/>Redis backing]
+            DR[Resiliency<br/>Retry policies]
+            DC[Configuration<br/>mTLS enabled]
+        end
+    end
+    
+    FD --> FS
+    BD --> BS
+    PG --> PS
+    BD -.->|Uses| CM1
+    BD -.->|Uses| SEC1
+    BD -.->|Uses| SEC2
+    PG -->|Mounts| PVC1
+    BD -.->|Dapr sidecar| DS
+    
+    style FD fill:#d5e8d4,stroke:#82b366
+    style BD fill:#d5e8d4,stroke:#82b366
+    style PG fill:#d5e8d4,stroke:#82b366
+    style FS fill:#ffe6cc,stroke:#d79b00
+    style BS fill:#ffe6cc,stroke:#d79b00
+    style PS fill:#ffe6cc,stroke:#d79b00
+    style CM1 fill:#e1d5e7,stroke:#9673a6
+    style SEC1 fill:#e1d5e7,stroke:#9673a6
+    style SEC2 fill:#e1d5e7,stroke:#9673a6
+    style PVC1 fill:#f5f5f5,stroke:#666666
+    style PVC2 fill:#f5f5f5,stroke:#666666
+    style DS fill:#fff2cc,stroke:#d6b656
+    style DR fill:#fff2cc,stroke:#d6b656
+    style DC fill:#fff2cc,stroke:#d6b656
+```
 
-#### C4 Model Diagrams
-- **[C4 Context Diagram](docs/c4-context.drawio)** - System context showing users, main system, and external dependencies
-- **[C4 Container Diagram](docs/c4-container.drawio)** - Detailed view of containers (frontend, backend modules, database)
+### 📁 Detailed Architecture Diagrams
 
-#### Infrastructure Diagrams  
-- **[Kubernetes Infrastructure](docs/kubernetes-infrastructure.drawio)** - Complete K8s deployment architecture with all resources
+For more detailed, interactive diagrams, see the `docs/` directory:
 
-**To view/edit diagrams:** Open the `.drawio` files in VS Code with the [Draw.io Integration extension](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)
+- **[C4 Context Diagram](docs/c4-context.drawio)** - Full system context with all interactions
+- **[C4 Container Diagram](docs/c4-container.drawio)** - Detailed component breakdown with API endpoints
+- **[Kubernetes Infrastructure](docs/kubernetes-infrastructure.drawio)** - Complete K8s resources with specifications
 
-**Diagram contents:**
-- **C4 Context**: Users (Architects, Stakeholders), System components, External systems (Dapr)
-- **C4 Container**: React Frontend, NestJS Backend (9 modules), PostgreSQL, Redis, API endpoints
-- **Kubernetes**: Deployments, StatefulSets, Services, ConfigMaps, Secrets, PVCs, Dapr components, RBAC
+**To view/edit:** Open `.drawio` files in VS Code with the Draw.io Integration extension
 
 ## 🛠️ Tech Stack
 
