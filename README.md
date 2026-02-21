@@ -90,6 +90,24 @@ This application provides a comprehensive platform for managing enterprise archi
 └──────────────────────────────────────────────────────────────┘
 ```
 
+### 📐 Architecture Diagrams
+
+Detailed architecture diagrams are available in the `docs/` directory:
+
+#### C4 Model Diagrams
+- **[C4 Context Diagram](docs/c4-context.drawio)** - System context showing users, main system, and external dependencies
+- **[C4 Container Diagram](docs/c4-container.drawio)** - Detailed view of containers (frontend, backend modules, database)
+
+#### Infrastructure Diagrams  
+- **[Kubernetes Infrastructure](docs/kubernetes-infrastructure.drawio)** - Complete K8s deployment architecture with all resources
+
+**To view/edit diagrams:** Open the `.drawio` files in VS Code with the [Draw.io Integration extension](https://marketplace.visualstudio.com/items?itemName=hediet.vscode-drawio)
+
+**Diagram contents:**
+- **C4 Context**: Users (Architects, Stakeholders), System components, External systems (Dapr)
+- **C4 Container**: React Frontend, NestJS Backend (9 modules), PostgreSQL, Redis, API endpoints
+- **Kubernetes**: Deployments, StatefulSets, Services, ConfigMaps, Secrets, PVCs, Dapr components, RBAC
+
 ## 🛠️ Tech Stack
 
 ### Backend
@@ -212,6 +230,11 @@ ai-agents-feaf/
 │   │   └── types/             # TypeScript types
 │   ├── vite.config.ts         # Vite configuration
 │   └── README.md              # Frontend documentation
+│
+├── docs/                       # Architecture diagrams
+│   ├── c4-context.drawio      # C4 Context diagram
+│   ├── c4-container.drawio    # C4 Container diagram
+│   └── kubernetes-infrastructure.drawio  # K8s architecture
 │
 ├── k8s/                        # Kubernetes manifests
 │   ├── 00-namespace.yaml      # Namespace

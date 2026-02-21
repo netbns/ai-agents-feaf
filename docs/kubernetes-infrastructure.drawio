@@ -1,0 +1,154 @@
+<mxfile host="65bd71144e">
+    <diagram id="K8sInfra" name="Kubernetes Infrastructure">
+        <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1600" pageHeight="1100" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="&lt;b&gt;Kubernetes Infrastructure Diagram&lt;/b&gt;&lt;br&gt;FEAF-Aligned AI Agents Platform" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="400" y="20" width="800" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="Kubernetes Cluster" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=16;fontStyle=1;align=left;verticalAlign=top;spacingTop=10;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="80" y="100" width="1440" height="940" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="Namespace: feaf-dashboard" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=14;fontStyle=1;align=left;verticalAlign=top;spacingTop=10;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="120" y="150" width="1360" height="860" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="&lt;b&gt;Frontend Deployment&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="200" width="280" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Pod: frontend&lt;br&gt;&lt;br&gt;Container: React App&lt;br&gt;Image: feaf-frontend:latest&lt;br&gt;Port: 80&lt;br&gt;&lt;br&gt;Resources:&lt;br&gt;• CPU: 100m / 500m&lt;br&gt;• Memory: 128Mi / 512Mi&lt;br&gt;&lt;br&gt;Replicas: 2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="180" y="240" width="240" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="&lt;b&gt;Backend Deployment&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+                    <mxGeometry x="520" y="200" width="340" height="340" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="Pod: backend&lt;br&gt;&lt;br&gt;Container: NestJS API&lt;br&gt;Image: feaf-backend:latest&lt;br&gt;Ports: 3000 (HTTP), 50001 (Dapr)&lt;br&gt;&lt;br&gt;Resources:&lt;br&gt;• CPU: 200m / 1000m&lt;br&gt;• Memory: 256Mi / 1Gi&lt;br&gt;&lt;br&gt;Environment:&lt;br&gt;• DATABASE_URL (from secret)&lt;br&gt;• JWT_SECRET (from secret)&lt;br&gt;• DAPR_HTTP_PORT: 3500&lt;br&gt;&lt;br&gt;Health Probes:&lt;br&gt;• Liveness: /health/live&lt;br&gt;• Readiness: /health/ready&lt;br&gt;&lt;br&gt;Replicas: 2" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="540" y="240" width="300" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="&lt;b&gt;PostgreSQL StatefulSet&lt;/b&gt;" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=12;fontStyle=1;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+                    <mxGeometry x="940" y="200" width="280" height="340" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="Pod: postgres-0&lt;br&gt;&lt;br&gt;Container: PostgreSQL 14&lt;br&gt;Image: postgres:14-alpine&lt;br&gt;Port: 5432&lt;br&gt;&lt;br&gt;Resources:&lt;br&gt;• CPU: 250m / 1000m&lt;br&gt;• Memory: 256Mi / 1Gi&lt;br&gt;&lt;br&gt;Environment:&lt;br&gt;• POSTGRES_DB: feaf_dashboard&lt;br&gt;• POSTGRES_USER (from secret)&lt;br&gt;• POSTGRES_PASSWORD (secret)&lt;br&gt;&lt;br&gt;Volume:&lt;br&gt;• PVC: postgres-data (10Gi)&lt;br&gt;• Mount: /var/lib/postgresql/data&lt;br&gt;&lt;br&gt;Init Scripts:&lt;br&gt;• Create database&lt;br&gt;• Run Prisma migrations" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="960" y="240" width="240" height="280" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="&lt;b&gt;Services&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=12;fontStyle=1;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="440" width="700" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="Service: frontend&lt;br&gt;Type: ClusterIP&lt;br&gt;Port: 80 → 80&lt;br&gt;Selector: app=frontend" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="180" y="465" width="140" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="Service: backend&lt;br&gt;Type: ClusterIP&lt;br&gt;Port: 3000 → 3000&lt;br&gt;Selector: app=backend" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="340" y="465" width="160" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="Service: postgres&lt;br&gt;Type: ClusterIP&lt;br&gt;Port: 5432 → 5432&lt;br&gt;Selector: app=postgres" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="520" y="465" width="160" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="Service: backend-dapr&lt;br&gt;Type: ClusterIP&lt;br&gt;Port: 3500, 50001&lt;br&gt;For Dapr sidecar" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="465" width="140" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="&lt;b&gt;Persistent Storage&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;fontColor=#333333;" vertex="1" parent="1">
+                    <mxGeometry x="940" y="570" width="280" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="PVC: postgres-data&lt;br&gt;StorageClass: standard&lt;br&gt;Size: 10Gi&lt;br&gt;Access: ReadWriteOnce&lt;br&gt;&lt;br&gt;PVC: prometheus-data&lt;br&gt;Size: 5Gi (for monitoring)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="960" y="595" width="240" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="&lt;b&gt;Configuration&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;fontColor=#333333;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="570" width="740" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="19" value="ConfigMap: backend-config&lt;br&gt;• NODE_ENV=production&lt;br&gt;• PORT=3000&lt;br&gt;• DAPR_HTTP_PORT=3500&lt;br&gt;• DAPR_GRPC_PORT=50001" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="180" y="595" width="180" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="20" value="Secret: database-credentials&lt;br&gt;• POSTGRES_USER&lt;br&gt;• POSTGRES_PASSWORD&lt;br&gt;• DATABASE_URL" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="380" y="595" width="180" height="85" as="geometry"/>
+                </mxCell>
+                <mxCell id="21" value="Secret: jwt-secret&lt;br&gt;• JWT_SECRET" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="580" y="595" width="140" height="40" as="geometry"/>
+                </mxCell>
+                <mxCell id="22" value="ConfigMap: postgres-init&lt;br&gt;• init.sql scripts" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="580" y="645" width="140" height="35" as="geometry"/>
+                </mxCell>
+                <mxCell id="23" value="&lt;b&gt;Dapr Components&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;fontColor=#333333;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="730" width="740" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="24" value="Component: statestore&lt;br&gt;Type: state.redis&lt;br&gt;• Redis backing store&lt;br&gt;• Key prefix: feaf&lt;br&gt;• Connects to redis:6379" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="180" y="760" width="160" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="25" value="Component: resiliency&lt;br&gt;Type: resiliency&lt;br&gt;• Retry policies&lt;br&gt;• Circuit breakers&lt;br&gt;• Timeouts" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="360" y="760" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="26" value="Component: configuration&lt;br&gt;Type: configuration&lt;br&gt;• Global settings&lt;br&gt;• mTLS enabled&lt;br&gt;• Tracing (Zipkin)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="520" y="760" width="160" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="Dapr Sidecars&lt;br&gt;(Injected automatically)&lt;br&gt;• daprd container&lt;br&gt;• Port 3500, 50001" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="700" y="760" width="180" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="28" value="&lt;b&gt;RBAC &amp;amp; Security&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;fontColor=#333333;" vertex="1" parent="1">
+                    <mxGeometry x="940" y="730" width="280" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="29" value="ServiceAccount: backend-sa&lt;br&gt;• Dapr access&lt;br&gt;• ConfigMap read&lt;br&gt;• Secret read&lt;br&gt;&lt;br&gt;ServiceAccount: frontend-sa&lt;br&gt;• Basic permissions&lt;br&gt;&lt;br&gt;ResourceQuota:&lt;br&gt;• CPU: 4 cores total&lt;br&gt;• Memory: 8Gi total&lt;br&gt;• Pods: 50 max" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="960" y="755" width="240" height="105" as="geometry"/>
+                </mxCell>
+                <mxCell id="30" value="&lt;b&gt;Monitoring (Planned)&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;fontColor=#333333;" vertex="1" parent="1">
+                    <mxGeometry x="160" y="910" width="380" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="31" value="Prometheus Deployment&lt;br&gt;• Metrics collection&lt;br&gt;• Storage: 5Gi PVC&lt;br&gt;• Scrapes: backend, postgres" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="180" y="935" width="340" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="32" value="&lt;b&gt;Optional: Redis&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=12;fontStyle=1;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;fontColor=#333333;" vertex="1" parent="1">
+                    <mxGeometry x="580" y="910" width="320" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="33" value="Redis Deployment (for Dapr state)&lt;br&gt;• Image: redis:7-alpine&lt;br&gt;• Port: 6379&lt;br&gt;• Optional persistent volume" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;fontSize=9;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="600" y="935" width="280" height="45" as="geometry"/>
+                </mxCell>
+                <mxCell id="34" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;strokeColor=#666666;" edge="1" parent="1" source="6" target="12">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="600" y="500" as="sourcePoint"/>
+                        <mxPoint x="650" y="450" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="35" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;fontSize=12;strokeColor=#666666;" edge="1" parent="1" source="8" target="13">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="600" y="500" as="sourcePoint"/>
+                        <mxPoint x="650" y="450" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="36" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;strokeColor=#82B366;" edge="1" parent="1" source="13" target="14">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="600" y="500" as="sourcePoint"/>
+                        <mxPoint x="650" y="450" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="37" value="DB Connection" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="36">
+                    <mxGeometry x="-0.1333" y="1" relative="1" as="geometry">
+                        <mxPoint y="-9" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="38" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fontSize=12;strokeColor=#666666;dashed=1;" edge="1" parent="1" source="10" target="16">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="600" y="600" as="sourcePoint"/>
+                        <mxPoint x="650" y="550" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="39" value="Mounts" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="38">
+                    <mxGeometry x="-0.1333" y="1" relative="1" as="geometry">
+                        <mxPoint x="21" y="5" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="40" value="" style="endArrow=classic;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;strokeColor=#6C8EBF;" edge="1" parent="1" source="13" target="12">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="600" y="500" as="sourcePoint"/>
+                        <mxPoint x="650" y="450" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="41" value="API Calls" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=9;" vertex="1" connectable="0" parent="40">
+                    <mxGeometry x="-0.1333" y="1" relative="1" as="geometry">
+                        <mxPoint y="-9" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="42" value="&lt;b&gt;External Access&lt;/b&gt;&lt;br&gt;• Via Ingress (production)&lt;br&gt;• Via kubectl port-forward (dev)&lt;br&gt;• Via Minikube service (local)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="940" y="910" width="280" height="80" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

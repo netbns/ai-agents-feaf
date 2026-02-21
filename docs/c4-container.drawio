@@ -1,0 +1,116 @@
+<mxfile host="65bd71144e">
+    <diagram id="C4Container" name="C4 Container">
+        <mxGraphModel dx="1434" dy="844" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="1000" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="&lt;b&gt;C4 Container Diagram&lt;/b&gt;&lt;br&gt;FEAF-Aligned AI Agents System" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=20;fontStyle=1" vertex="1" parent="1">
+                    <mxGeometry x="400" y="40" width="600" height="60" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="&lt;b&gt;Enterprise Architect&lt;/b&gt;&lt;br&gt;[Person]" style="shape=umlActor;verticalLabelPosition=bottom;verticalAlign=top;html=1;outlineConnect=0;fillColor=#ffe6cc;strokeColor=#d79b00;" vertex="1" parent="1">
+                    <mxGeometry x="120" y="200" width="60" height="120" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="&lt;b&gt;React Frontend&lt;/b&gt;&lt;br&gt;[Container: React + Vite]&lt;br&gt;&lt;br&gt;Provides UI components:&lt;br&gt;• Login/Register pages&lt;br&gt;• Board management&lt;br&gt;• Component canvas&lt;br&gt;• Relationship editor&lt;br&gt;&lt;br&gt;State: Zustand + React Query&lt;br&gt;Styling: Tailwind CSS" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;align=left;verticalAlign=top;spacingTop=10;spacingLeft=10;" vertex="1" parent="1">
+                    <mxGeometry x="300" y="160" width="220" height="200" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="&lt;b&gt;NestJS Backend API&lt;/b&gt;&lt;br&gt;[Container: NestJS]" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=12;align=center;verticalAlign=top;spacingTop=10;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="120" width="480" height="500" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="&lt;b&gt;Auth Module&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;&lt;br&gt;• JWT authentication&lt;br&gt;• Bcrypt hashing&lt;br&gt;• Passport strategies" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="160" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="&lt;b&gt;Boards Module&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;&lt;br&gt;• CRUD operations&lt;br&gt;• Export functionality&lt;br&gt;• FEAF model types" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="800" y="160" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" value="&lt;b&gt;Components Module&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;&lt;br&gt;• Type validation&lt;br&gt;• Position management&lt;br&gt;• Bulk updates" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="950" y="160" width="130" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" value="&lt;b&gt;Relationships Module&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;&lt;br&gt;• 5 relationship types&lt;br&gt;• Validation&lt;br&gt;• Graph operations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="280" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" value="&lt;b&gt;Cross-Board Links&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;&lt;br&gt;• Semantic validation&lt;br&gt;• FEAF transitions&lt;br&gt;• Link management" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="800" y="280" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" value="&lt;b&gt;Reference Models&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;&lt;br&gt;• FEAF metadata&lt;br&gt;• Component types&lt;br&gt;• Validation rules" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="950" y="280" width="130" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" value="&lt;b&gt;Dapr Module&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;&lt;br&gt;• Service invocation&lt;br&gt;• State management&lt;br&gt;• gRPC support" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="400" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="13" value="&lt;b&gt;Health Module&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;&lt;br&gt;• Liveness probe&lt;br&gt;• Readiness probe&lt;br&gt;• K8s integration" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="800" y="400" width="140" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="14" value="&lt;b&gt;Prisma Service&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;&lt;br&gt;• ORM layer&lt;br&gt;• Connection pool&lt;br&gt;• Type safety" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="950" y="400" width="130" height="100" as="geometry"/>
+                </mxCell>
+                <mxCell id="15" value="&lt;b&gt;Config Module&lt;/b&gt;&lt;br&gt;[Component]&lt;br&gt;&lt;br&gt;• Environment vars&lt;br&gt;• Validation&lt;br&gt;• Type-safe config" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="640" y="510" width="440" height="90" as="geometry"/>
+                </mxCell>
+                <mxCell id="16" value="&lt;b&gt;PostgreSQL Database&lt;/b&gt;&lt;br&gt;[Container: PostgreSQL 14+]&lt;br&gt;&lt;br&gt;Stores:&lt;br&gt;• Users and authentication&lt;br&gt;• Boards (6 FEAF models)&lt;br&gt;• Components and positions&lt;br&gt;• Relationships (5 types)&lt;br&gt;• Cross-board links&lt;br&gt;• Audit logs&lt;br&gt;&lt;br&gt;8 Prisma models with relations" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;verticalAlign=top;spacingTop=10;spacingLeft=10;fontColor=#333333;" vertex="1" parent="1">
+                    <mxGeometry x="620" y="700" width="260" height="220" as="geometry"/>
+                </mxCell>
+                <mxCell id="17" value="&lt;b&gt;Redis State Store&lt;/b&gt;&lt;br&gt;[Container: Redis]&lt;br&gt;&lt;br&gt;Used by Dapr for:&lt;br&gt;• State management&lt;br&gt;• Caching&lt;br&gt;• Session storage" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;fontSize=11;align=left;verticalAlign=top;spacingTop=10;spacingLeft=10;fontColor=#333333;" vertex="1" parent="1">
+                    <mxGeometry x="920" y="700" width="180" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="18" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;" edge="1" parent="1" source="3" target="4">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="450" as="sourcePoint"/>
+                        <mxPoint x="450" y="400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="19" value="Uses web interface&lt;br&gt;[HTTPS]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="18">
+                    <mxGeometry x="-0.1333" y="1" relative="1" as="geometry">
+                        <mxPoint x="10" y="-15" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="20" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;" edge="1" parent="1" source="4" target="5">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="450" as="sourcePoint"/>
+                        <mxPoint x="450" y="400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="21" value="API calls&lt;br&gt;[REST/JSON, JWT]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="20">
+                    <mxGeometry x="-0.1333" y="1" relative="1" as="geometry">
+                        <mxPoint x="10" y="-15" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="22" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;" edge="1" parent="1" source="5" target="16">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="450" as="sourcePoint"/>
+                        <mxPoint x="450" y="400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="23" value="Reads/Writes&lt;br&gt;[SQL via Prisma ORM]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="22">
+                    <mxGeometry x="-0.1333" y="1" relative="1" as="geometry">
+                        <mxPoint x="61" y="10" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="24" value="" style="endArrow=classic;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;fontSize=12;dashed=1;" edge="1" parent="1" source="12" target="17">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="450" as="sourcePoint"/>
+                        <mxPoint x="450" y="400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="25" value="State operations&lt;br&gt;[Dapr SDK]" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="24">
+                    <mxGeometry x="-0.1333" y="1" relative="1" as="geometry">
+                        <mxPoint x="15" y="-41" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="26" value="&lt;b&gt;API Endpoints (41 total)&lt;/b&gt;&lt;br&gt;• /auth/* - Auth operations&lt;br&gt;• /boards/* - Board CRUD&lt;br&gt;• /components/* - Component CRUD&lt;br&gt;• /relationships/* - Relationship CRUD&lt;br&gt;• /cross-board-links/* - Link CRUD&lt;br&gt;• /reference-models/* - FEAF metadata&lt;br&gt;• /health/* - Health checks" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;align=left;verticalAlign=top;spacingTop=5;spacingLeft=5;" vertex="1" parent="1">
+                    <mxGeometry x="300" y="420" width="280" height="140" as="geometry"/>
+                </mxCell>
+                <mxCell id="27" value="" style="endArrow=classic;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;fontSize=12;dashed=1;" edge="1" parent="1" source="4" target="26">
+                    <mxGeometry width="50" height="50" relative="1" as="geometry">
+                        <mxPoint x="400" y="450" as="sourcePoint"/>
+                        <mxPoint x="450" y="400" as="targetPoint"/>
+                    </mxGeometry>
+                </mxCell>
+                <mxCell id="28" value="Consumes" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="27">
+                    <mxGeometry x="-0.1333" y="1" relative="1" as="geometry">
+                        <mxPoint x="-21" y="5" as="offset"/>
+                    </mxGeometry>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>
